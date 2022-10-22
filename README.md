@@ -1,12 +1,12 @@
 # FasterRcnn_FPN_DCN
-An implementation of FasterRcnn_FPN_DCN.
+* An implementation of FasterRcnn_FPN_DCN.
+* This repo use a synthetic atmospheric turbulence dataset.
 
 
-
-To do: 
-1.translate code comments from Chinese to English.
-2.split work in different folder
-3.upload dataset and trained weights.
+# To do: 
+* 1.translate code comments from Chinese to English.
+* 2.split work in different folder
+* 3.upload dataset and trained weights.
 
 
 
@@ -34,6 +34,7 @@ To do:
   └── pascal_voc_classes.json: label of pascal_voc
 ```
 
+## Resource：
 
- 
- 
+dataset used：[OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJbTkK3zLW4bjfnsc?e=ppRE3g)
+
