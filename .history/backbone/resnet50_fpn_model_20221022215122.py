@@ -144,9 +144,12 @@ def resnet50_fpn_backbone(pretrain_path="",
     build resnet50_fpn——backbone
     Args:
         pretrain_path: resnet50's pre-trained weights, default = none
-        trainable_layers: which layers will be trained
-        returned_layers: returned at which layers
-        extra_blocks: add extra structure
+        norm_layer: 官方默认的是FrozenBatchNorm2d，即不会更新参数的bn层(因为如果batch_size设置的很小会导致效果更差，还不如不用bn层)
+                    如果自己的GPU显存很大可以设置很大的batch_size，那么自己可以传入正常的BatchNorm2d层
+                    (https://github.com/facebookresearch/maskrcnn-benchmark/issues/267)
+        trainable_layers: 指定训练哪些层结构
+        returned_layers: 指定哪些层的输出需要返回
+        extra_blocks: 在输出的特征层基础上额外添加的层结构
 
     Returns:
 
@@ -164,17 +167,17 @@ def resnet50_fpn_backbone(pretrain_path="",
         print(resnet_backbone.load_state_dict(torch.load(pretrain_path), strict=False))
 
     # select layers that wont be frozen
-    '''If backbone changed, do not freze network and train'''
+    '''修改backbone后就不要冻结网络需要预训练要训练整个网络设置为5看下一行'''
     assert 0 <= trainable_layers <= 5
     layers_to_train = ['layer4', 'layer3', 'layer2', 'layer1', 'conv1'][:trainable_layers]
 
-    # bn1
+    # 如果要训练所有层结构的话，不要忘了conv1后还有一个bn1
     if trainable_layers == 5:
         layers_to_train.append("bn1")
 
     # freeze layers
     for name, parameter in resnet_backbone.named_parameters():
-        # only train the layers exclude the list of layers_to_train
+        # 只训练不在layers_to_train列表中的层结构
         if all([not name.startswith(layer) for layer in layers_to_train]):
             parameter.requires_grad_(False)
 
@@ -183,18 +186,18 @@ def resnet50_fpn_backbone(pretrain_path="",
 
     if returned_layers is None:
         returned_layers = [1, 2, 3, 4]
-    # the num of feature layers should be in 1-5
+    # 返回的特征层个数肯定大于0小于5
     assert min(returned_layers) > 0 and max(returned_layers) < 5
 
     # return_layers = {'layer1': '0', 'layer2': '1', 'layer3': '2', 'layer4': '3'}
     return_layers = {f'layer{k}': str(v) for v, k in enumerate(returned_layers)}
     # print(return_layers)
-    # in_channel  output layer4 eigenmatrix channel = 2048
+    # in_channel 为layer4的输出特征矩阵channel = 2048
     in_channels_stage2 = resnet_backbone.in_channel // 8  # 256
-    # record resnet50 every eigen layer provied to fpn channel
+    # 记录resnet50提供给fpn的每个特征层channel
     in_channels_list = [in_channels_stage2 * 2 ** (i - 1) for i in returned_layers]
-    # get every layers'channel from fpn
-    "out_channels layer1 direte all eigen layers'4 become 256"
+    # 通过fpn后得到的每个特征层的channel
+    'out_channels指希望把layer1到4的输出都变为256'
     out_channels = 256
     return BackboneWithFPN(resnet_backbone, return_layers, in_channels_list, out_channels, extra_blocks=extra_blocks)
 

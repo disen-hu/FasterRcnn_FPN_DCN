@@ -194,7 +194,7 @@ def resnet50_fpn_backbone(pretrain_path="",
     # record resnet50 every eigen layer provied to fpn channel
     in_channels_list = [in_channels_stage2 * 2 ** (i - 1) for i in returned_layers]
     # get every layers'channel from fpn
-    "out_channels layer1 direte all eigen layers'4 become 256"
+    'out_channels指希望把layer1到4的输出都变为256'
     out_channels = 256
     return BackboneWithFPN(resnet_backbone, return_layers, in_channels_list, out_channels, extra_blocks=extra_blocks)
 

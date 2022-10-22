@@ -183,18 +183,18 @@ def resnet50_fpn_backbone(pretrain_path="",
 
     if returned_layers is None:
         returned_layers = [1, 2, 3, 4]
-    # the num of feature layers should be in 1-5
+    # 返回的特征层个数肯定大于0小于5
     assert min(returned_layers) > 0 and max(returned_layers) < 5
 
     # return_layers = {'layer1': '0', 'layer2': '1', 'layer3': '2', 'layer4': '3'}
     return_layers = {f'layer{k}': str(v) for v, k in enumerate(returned_layers)}
     # print(return_layers)
-    # in_channel  output layer4 eigenmatrix channel = 2048
+    # in_channel 为layer4的输出特征矩阵channel = 2048
     in_channels_stage2 = resnet_backbone.in_channel // 8  # 256
-    # record resnet50 every eigen layer provied to fpn channel
+    # 记录resnet50提供给fpn的每个特征层channel
     in_channels_list = [in_channels_stage2 * 2 ** (i - 1) for i in returned_layers]
-    # get every layers'channel from fpn
-    "out_channels layer1 direte all eigen layers'4 become 256"
+    # 通过fpn后得到的每个特征层的channel
+    'out_channels指希望把layer1到4的输出都变为256'
     out_channels = 256
     return BackboneWithFPN(resnet_backbone, return_layers, in_channels_list, out_channels, extra_blocks=extra_blocks)
 
