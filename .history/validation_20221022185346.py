@@ -227,7 +227,7 @@ if __name__ == "__main__":
     parser.add_argument('--data-path', default='./data', help='dataset root')
 
     # 训练好的权重文件
-    parser.add_argument('--weights-path', default='backbone/best_trained_weights.pth', type=str, help='training weights')
+    parser.add_argument('--weights-path', default='backbone/best_epoch_weights.pth', type=str, help='training weights')
 
     # batch size
     parser.add_argument('--batch_size', default=2, type=int, metavar='N',

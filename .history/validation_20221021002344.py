@@ -1,4 +1,7 @@
-#test map
+"""
+该脚本用于调用训练好的模型权重去计算验证集/测试集的COCO指标
+以及每个类别的mAP(IoU=0.5)
+"""
 
 import os
 import json
@@ -227,7 +230,7 @@ if __name__ == "__main__":
     parser.add_argument('--data-path', default='./data', help='dataset root')
 
     # 训练好的权重文件
-    parser.add_argument('--weights-path', default='backbone/best_trained_weights.pth', type=str, help='training weights')
+    parser.add_argument('--weights-path', default='multi_train/model_11.pth', type=str, help='training weights')
 
     # batch size
     parser.add_argument('--batch_size', default=2, type=int, metavar='N',
