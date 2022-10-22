@@ -36,6 +36,6 @@
 
 ## Resource：
 
-* dataset used：[OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJbTkK3zLW4bjfnsc?e=ppRE3g)
+* dataset used：[OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJbTkK3zLW4bjfnsc?e=ppRE3g) unzip this dataset in data/ 
 * pre-trained weights: [OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJc19Uj-AWM-hQ41g?e=KTtyqu) To use the pre-trained weights to train, plz please this weight file in the backbone/
 * our-trained weights: [OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJbt8Q_Q3z8dta0aE?e=kcKhtN) This is our trained weights, put it in backbone/ use command python validation.py to get mAP.
