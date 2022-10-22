@@ -9,7 +9,6 @@ To do:
 3.upload dataset and trained weights.
 
 
-# Faster R-CNN
 
 ## This repo is implementated by touchvision'repo
 * https://github.com/pytorch/vision/tree/master/torchvision/models/detection
