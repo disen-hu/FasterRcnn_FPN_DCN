@@ -1,4 +1,7 @@
-#create the ground-truth results and detection results in .txt and test map of trained weights.
+"""
+该脚本用于调用训练好的模型权重去计算验证集/测试集的COCO指标
+以及每个类别的mAP(IoU=0.5)
+"""
 
 import os
 import json
@@ -115,9 +118,9 @@ def main(parser_data):
 
     # load validation data set
     'val改成test'
-    val_dataset = VOCDataSet(VOC_root, "2007", data_transform["val"], "val.txt")
+    val_dataset = VOCDataSet(VOC_root, "2007", data_transform["test"], "test.txt")
     val_dataset_loader = torch.utils.data.DataLoader(val_dataset,
-                                                     batch_size=1,
+                                                     batch_size=batch_size,
                                                      shuffle=False,
                                                      num_workers=nw,
                                                      pin_memory=True,
@@ -155,6 +158,30 @@ def main(parser_data):
 
             outputs = [{k: v.to(cpu_device) for k, v in t.items()} for t in outputs]
             res = {target["image_id"].item(): output for target, output in zip(targets, outputs)}
+            for o,t in zip(outputs,targets):
+                id = t["image_id"].item()
+                boxes = t["boxes"].cpu().numpy()
+                labels = t["labels"].cpu().numpy()
+                labels = [category_index[i] for i in labels]
+                with open(f"ground-truth/{id}.txt","w",encoding="utf-8") as f:
+
+                    for label,box in zip(labels,boxes):
+                        box = box.astype(int)
+                        box = " ".join(str(i) for i in box)
+                        f.write(f"{label} {box}")
+                        f.write("\n")
+                boxes = o["boxes"].cpu().numpy()
+                labels = o["labels"].cpu().numpy()
+                labels = [category_index[i] for i in labels]
+                scores = o["scores"].cpu().numpy()
+                with open(f"detection-results/{id}.txt","w",encoding="utf-8") as f:
+                    for label,box,socre in zip(labels,boxes,scores):
+                        box = box.astype(int)
+                        box = " ".join(str(i) for i in box)
+
+                        f.write(f"{label} {socre} {box}")
+                        f.write("\n")
+
             coco_evaluator.update(res)
 
     coco_evaluator.synchronize_between_processes()
@@ -203,7 +230,7 @@ if __name__ == "__main__":
     parser.add_argument('--data-path', default='./data', help='dataset root')
 
     # 训练好的权重文件
-    parser.add_argument('--weights-path', default='multi_train/model_17.pth', type=str, help='training weights')
+    parser.add_argument('--weights-path', default='multi_train/model_11.pth', type=str, help='training weights')
 
     # batch size
     parser.add_argument('--batch_size', default=2, type=int, metavar='N',

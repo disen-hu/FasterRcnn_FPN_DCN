@@ -1,4 +1,7 @@
-#create the ground-truth results and detection results in .txt and test map of trained weights.
+"""
+该脚本用于调用训练好的模型权重去计算验证集/测试集的COCO指标
+以及每个类别的mAP(IoU=0.5)
+"""
 
 import os
 import json
