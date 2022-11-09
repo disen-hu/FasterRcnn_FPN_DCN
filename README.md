@@ -1,17 +1,18 @@
 # FasterRcnn_FPN_DCN
-* An implementation of FasterRcnn_FPN_DCN.
-* This repo use a synthetic atmospheric turbulence dataset.
+* This is an official implementation for the paper [Object recognition in atmospheric turbulence scenes](https://arxiv.org/abs/2210.14318).
+* This repo use a synthetic atmospheric turbulence dataset for trainning and test.
 
 
-# To do: 
-* 1.translate code comments from Chinese to English.
-* 2.split work in different folder
-* 
-
-
-
-## This repo is implementated by touchvision'repo
-* https://github.com/pytorch/vision/tree/master/torchvision/models/detection
+# Citation
+If you think this repo is useful,please citing :
+```
+@article{hu22,Object recognition in atmospheric turbulence scenes
+    Author = {Disen Hu,Nantheera Anantrasirichai},
+    Title = {Object recognition in atmospheric turbulence scenes},
+    Journal = {arXiv preprint arXiv:2210.14318},
+    Year = {2022}
+}
+```
 
 ## Excuting enviroment：
 * Python3.6/3.7/3.8
@@ -39,3 +40,9 @@
 * dataset used：[OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJbTkK3zLW4bjfnsc?e=ppRE3g) unzip this dataset in data/ 
 * pre-trained weights: [OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJc19Uj-AWM-hQ41g?e=KTtyqu) To use the pre-trained weights to train, plz please this weight file in the backbone/
 * our-trained weights: [OneDrive](https://1drv.ms/u/s!An4ptxH2n0OJbt8Q_Q3z8dta0aE?e=kcKhtN) This is our trained weights, put it in backbone/ use command python validation.py to get mAP.
+
+
+# To do: 
+* 1.translate code comments from Chinese to English.
+* 2.split work in different folder
+* 
